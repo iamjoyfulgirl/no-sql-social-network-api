@@ -1,10 +1,10 @@
-const { User, Thought, Reaction } = require('../models');
+const { User, Thought } = require('../models');
 
 // User API route
 
 module.exports = {
 
-  getUsers: async (req, res, next) => {
+  getUsers: async (req, res) => {
     try {
       const users = await User.find();
       res.json(users);
@@ -13,7 +13,7 @@ module.exports = {
       res.json(err);
     }
   },
-  getSingleUser: async (req, res, next) => {
+  getSingleUser: async (req, res) => {
     try {
       const user = await User.findOne({ _id: req.params.userId });
       if (!user) {
@@ -26,7 +26,8 @@ module.exports = {
       res.json(err);
     };
   },
-  createUser: async (req, res, next) => {
+  // create user
+  createUser: async (req, res) => {
     try {
       const newUser = await User.create(req.body);
       res.json(newUser);
@@ -35,7 +36,8 @@ module.exports = {
       res.status(500).json(err);
     };
   },
-  updateUser: async (req, res, next) => {
+  // update user
+  updateUser: async (req, res) => {
     try {
       const update = await User.findOneAndUpdate(
         { _id: req.params.userId },
@@ -53,8 +55,8 @@ module.exports = {
     };
   },
 
-  // Deletes user's thoughts when the user is deleted
-  deleteUser: async (req, res, next) => {
+  // delete user
+  deleteUser: async (req, res) => {
     try {
       const user = await User.findById(req.params.userId).clone();
       const deleteUserThoughts = Thought.deleteMany({
@@ -74,9 +76,8 @@ module.exports = {
       res.json(err);
     };
   },
-
-  // friends API 
-  addFriend: async (req, res, next) => {
+  // add friend
+  addFriend: async (req, res) => {
     try {
       const newFriend = await User.findOneAndUpdate(
         { username: req.body.username },
@@ -93,7 +94,8 @@ module.exports = {
       res.status(500).json(err);
     };
   },
-  deleteFriend: async (req, res, next) => {
+  // delete friend
+  deleteFriend: async (req, res) => {
     try {
       const user = await User.findOneAndUpdate(
         { username: req.body.username },
