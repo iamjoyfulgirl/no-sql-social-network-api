@@ -1,4 +1,4 @@
-const { Schema, mdoel, Types } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const userSchema = new Schema(
   {

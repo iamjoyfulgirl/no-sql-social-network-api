@@ -4,7 +4,7 @@ const { User, Thought, Reaction } = require('../models');
 
 module.exports = {
 
-  getThoughts: async (req, res, next) => {
+  getThoughts: async (req, res) => {
     try {
       const thoughts = await Thought.find();
       res.json(thoughts);
@@ -13,7 +13,7 @@ module.exports = {
       res.json(err);
     }
   },
-  getSingleThought: async (req, res, next) => {
+  getSingleThought: async (req, res) => {
     try {
       const thought = await Thought.findOne({ _id: req.params.thoughtId });
       if (!thought) {
@@ -26,7 +26,7 @@ module.exports = {
       res.json(err);
     };
   },
-  createThought: async (req, res, next) => {
+  createThought: async (req, res) => {
     try {
       const newThought = await Thought.create(req.body);
       const addToUser = await User.findOneAndUpdate(
@@ -37,14 +37,14 @@ module.exports = {
       if (!addToUser) {
         res.status(404).json({ message: 'Thought created, but found no user with that user name' });
       } else {
-        res.json('Created the thought 🎉');
+        res.json('Created the thought');
       };
     } catch (err) {
       console.log('Error:', err);
       res.status(500).json(err);
     };
   },
-  updateThought: async (req, res, next) => {
+  updateThought: async (req, res) => {
     try {
       const update = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
@@ -61,7 +61,7 @@ module.exports = {
       res.status(500).json(err);
     };
   },
-  deleteThought: async (req, res, next) => {
+  deleteThought: async (req, res) => {
     try {
       const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
       if (!thought) {
@@ -75,7 +75,7 @@ module.exports = {
     };
   },
   // Add Reaction
-  addReaction: async (req, res, next) => {
+  addReaction: async (req, res) => {
     try {
       const newReaction = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
@@ -85,7 +85,7 @@ module.exports = {
       if (!newReaction) {
         res.status(404).json({ message: 'No user with that ID' });
       } else {
-        res.json('New reaction added 🎉');
+        res.json('New reaction added');
       };
     } catch (err) {
       console.log('Error:', err);
@@ -93,7 +93,7 @@ module.exports = {
     };
   },
   // DELETE Reaction by ID
-  deleteReaction: async (req, res, next) => {
+  deleteReaction: async (req, res) => {
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },

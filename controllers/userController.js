@@ -86,7 +86,7 @@ module.exports = {
       if (!newFriend) {
         res.status(404).json({ message: 'No user with that ID' });
       } else {
-        res.json('New friend added 🎉');
+        res.json('New friend added');
       };
     } catch (err) {
       console.log('Error:', err);
